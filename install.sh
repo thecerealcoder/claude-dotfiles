@@ -7,8 +7,8 @@ DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 echo "Installing Claude Code dotfiles..."
 
-# Create ~/.claude if it doesn't exist
-mkdir -p ~/.claude
+# Create ~/.claude/plugins if it doesn't exist
+mkdir -p ~/.claude/plugins
 
 # Backup existing settings if present
 if [ -f ~/.claude/settings.json ]; then
@@ -19,5 +19,10 @@ fi
 # Symlink settings
 ln -sf "$DOTFILES_DIR/.claude/settings.json" ~/.claude/settings.json
 
-echo "Done! ~/.claude/settings.json is now symlinked."
-echo "Restart Claude Code to apply plugins and settings."
+# Copy manually-managed plugins (not in plugin manager)
+echo "Installing ralph-wiggum and security-guidance plugins..."
+cp -r "$DOTFILES_DIR/.claude/plugins/ralph-wiggum" ~/.claude/plugins/
+cp -r "$DOTFILES_DIR/.claude/plugins/security-guidance" ~/.claude/plugins/
+
+echo "Done!"
+echo "Restart Claude Code — the 4 managed plugins will download automatically on first run."
